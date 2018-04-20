@@ -2,4 +2,81 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: Hello world
+  spree:
+    my_auctions: My Auctions
+    auction: Auction
+    bid_confirmation_message: Are you sure you want to bid this amount?
+    auction_settings: Auction Settings
+    current_auctions: Current Auctions
+    winning?: Winning?
+    watching: watching
+    starts_in: Starts in
+    starting_soon: Starting Soon
+    starting_soon_hours: Starting Soon Hours
+    ending_soon: Ending Soon
+    ending_soon_hours: Ending Soon Hours
+    payment_complete: Payment Complete
+    checkout_in: Must checkout in
+    no_highest_bidder: No highest bidder
+    checkout_deadline: Checkout Deadline
+    recently_completed: Recently Completed
+    recently_completed_hours: Recently Completed Hours
+    number_of_bids_to_show: Number of bids to show
+    winning_bid: Winning Bid
+    you_have_not_participated_in_an_auction_yet: You have not bid on any auctions yet.
+    you_have_not_watched_any_auctions_yet: You have not watched any auctions yet.
+    check_some_out_here: Check some out here
+    view_order_or_checkout: View Order or Checkout Here
+    you_have_won_this_auction: You have won this auction!
+    na: N/A
+    you_successfully_bid: You successfully bid
+    notice_messages:
+      auction_cloned: Auction cloned successfully
+      auction_not_cloned: Auction not cloned successfully
+    product_placeholder: Choose a product
+    auction_successfully_created: Auction created successfully
+    new_auction: New Auction
+    auction_link: Auction Page Link
+    associated_order: Associated Order
+    waiting_to_start: Waiting to Start
+    reserve_met: Reserve met
+    reserve_not_met: Reserve not met
+    auction_is_complete: Auction is complete.
+    must_be_signed_in_to_bid: You must be signed in to bid.
+    bid_not_high_enough: Your bid must exceed the current price plus the bid increment.
+    autobid_up_to: Auto-bid up to
+    met_reserve_price: Met reserve price
+    less_than_original_autobid: Less than original auto-bid, ignoring.
+    you_were_outbid: You were outbid.
+    there_was_a_tie_autobid_wins: There was a tie. Their auto-bid wins.
+    title: Title
+    reserve_price: Reserve Price
+    current_price: Current Price
+    starting_price: Starting Price
+    complete: Complete
+    auctions: Auctions
+    ends_in: Ends in
+    time_remaining: Time Remaining
+    ends_at: Ends at
+    starting_datetime: Start
+    current_end_datetime: End
+    planned_end_datetime: Planned End
+    countdown_seconds: Countdown Seconds
+    highest_bidder: Highest Bidder
+    bid: Bid
+    bids: Bids
+    min_bid: Minimum Bid
+    admin:
+      tab:
+        auctions: Auctions
+    hints:
+      spree/auction:
+        title: Many of the fields will be disabled after the auction starts, so be sure to choose wisely!
+        reserve_price: The minimum price for someone to win the auction. Not setting a reserve price may, counterintuitively, make bidding more competitive.
+        start: Please make sure to set your time zone in your user profile, so this updates correctly.
+        planned_end_datetime: After the auction has started, you cannot change this field.
+        countdown: This many seconds before the current end datetime, any new, high bids will increase the length of the auction by "time increment" amount of seconds. For example, with countdown as 300 (5 minutes) and time increment as 60 (1 minute), if the current price is $20.00 and somebody bids $30.00 with 3 minutes left, the end of the auction will be 1 minute more into the future, leaving 4 minutes left. It is okay for the time increment to be longer than the countdown.
+        bid_increment: When a bidder bids, they have to bid the current price + this amount in order to succesfully bid. For example, if the current price is $25.00 and bid increment is $2.50, the next successful bidder must bid $27.50 or more.
+        time_increment: Number of seconds to increase the end of the auction when within countdown.
+        end: This is different from "Planned End" because the "countdown" and "time increment" can change the originally chosen date and time.
+        checkout_time_minutes: The amount of time the successful bidder has to make payment on your auction. Default is 1 day (1440 minutes) and maximum is 1 week (10080 minutes). Make it as urgent as you want.

@@ -1,17 +1,17 @@
 # encoding: UTF-8
 $:.push File.expand_path('../lib', __FILE__)
-require 'solidus_auction/version'
+require 'solidus_auction_new/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'solidus_auction'
-  s.version     = "0.0.6"
+  s.name        = 'solidus_auction_new'
+  s.version     = "0.0.1"
   s.summary     = 'Adds auction functionality to a Solidus store'
   s.description = 'Add auctions and bidding to a Solidus store - adds consumer frontend and admin pages'
   s.license     = 'BSD-3-Clause'
   s.required_ruby_version = ">= 2.1"
 
   s.author      = "Jeffrey Gu"
-  s.homepage = "https://github.com/jgujgu/solidus_auction"
+  s.homepage = "https://github.com/jgujgu/solidus_auction_new"
 
   s.files        = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- spec/*`.split("\n")
