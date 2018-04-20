@@ -7,7 +7,7 @@ module SolidusAuctionNew
     config.autoload_paths += %W(#{config.root}/lib)
 
     initializer 'solidus_auction_new.environment', before: :load_config_initializers do
-      Spree::AuctionSettings::Config = SolidusAuction::Configuration.new
+      Spree::AuctionSettings::Config = SolidusAuctionNew::Configuration.new
     end
 
     # use rspec for tests
