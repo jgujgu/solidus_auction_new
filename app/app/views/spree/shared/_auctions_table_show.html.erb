@@ -1,0 +1,100 @@
+<% @auctions = spree_current_user.auctions.current_end_datetime_descending.uniq %>
+
+<div data-hook="account_my_auctions" class="account-my-auctions">
+
+  <h3><%= Spree.t(:my_auctions) %></h3>
+  <% if @auctions.any? %>
+    <table class="table table-striped order-summary">
+      <thead class="active">
+        <tr>
+          <th><%= Spree.t("title") %></th>
+          <th><%= Spree.t("current_price") %></th>
+          <th><%= Spree.t("winning?") %></th>
+          <th><%= Spree.t("bids") %></th>
+          <th><%= Spree.t("current_end_datetime") %></th>
+          <th><%= Spree.t("time_remaining") %></th>
+          <th><%= Spree.t("order") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @auctions.each do |auction| %>
+          <% highest_bidder = auction.highest_bidder_id == spree_current_user.id %>
+          <tr class="<%= cycle('even', 'odd') %>">
+            <td>
+              <span class="bold">
+                <%= link_to auction.title, auction %>
+              </span>
+            </td>
+            <td>
+              <% if highest_bidder %>
+                <span class="green">
+                  <%= auction.display_current_price %>
+                  <% highest_bid = auction.highest_bid %>
+                  <% if highest_bid.is_autobid? %>
+                    (<%= highest_bid.display_amount %>)
+                  <% end %>
+                </span>
+              <% else %>
+                <span class="red">
+                  <%= auction.display_current_price %>
+                </span>
+                <% end %>
+              </td>
+              <td>
+                <% if highest_bidder %>
+                  <i class="fa fa-thumbs-up green" aria-hidden="true"></i>
+                <% else %>
+                  <i class="fa fa-thumbs-down red" aria-hidden="true"></i>
+                <% end %>
+              </td>
+              <td>
+                <span class="bold">
+                  <%= auction.visible_bids.count %>
+                </span>
+              </td>
+              <td><%= local_time(auction.current_end_datetime) %></td>
+              <td>
+                <% is_highest_bidder = auction.highest_bidder_id == spree_current_user.id %>
+                <% if is_highest_bidder && auction.order_complete? %>
+                  <span class="green">
+                    <%= Spree.t("complete") %>
+                  </span>
+                <% elsif is_highest_bidder && auction.won? && !auction.order_complete? %>
+                  <%= render partial: 'spree/shared/checkout_in', locals: { auction: auction } %>
+                <% elsif auction.in_progress? %>
+                  <%= render partial: 'spree/shared/ends_in', locals: { auction: auction } %>
+                <% elsif auction.complete? %>
+                  <span class="green">
+                    <%= Spree.t("complete") %>
+                  </span>
+                <% end %>
+              </td>
+              <td>
+                <% if auction.complete && highest_bidder %>
+                  <%= render partial: 'spree/shared/auction_order_link', locals: { auction: auction } %>
+                <% elsif auction.complete %>
+                  <span class="red">
+                    <i class="fa fa-frown-o" aria-hidden="true"></i>
+                  </span>
+                <% else %>
+                  <span class="red">
+                    <%= Spree.t("na") %>
+                  </span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="alert alert-info">
+        <p>
+          <%= Spree.t(:you_have_not_participated_in_an_auction_yet) %>
+          <%= Spree.t(:check_some_out_here) %>:
+          <%= link_to Spree.t(:auctions), auctions_path %>
+        </p>
+      </div>
+    <% end %>
+    <br />
+
+  </div>

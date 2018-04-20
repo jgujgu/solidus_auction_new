@@ -1,0 +1,5 @@
+<% if item.variant.option_values.any? || item.variant.is_master?%>
+  <td class="item-name"><%= item.variant.name %></td>
+<% else %>
+  <td class="item-name"><%= item.variant.auction.title %></td>
+<% end %>

@@ -1,0 +1,11 @@
+<div>
+  <% if auction.in_progress? %>
+    <%= render partial: 'spree/shared/ends_in', locals: { auction: auction } %>
+  <% elsif auction.complete %>
+    <span class="green">
+      <%= Spree.t("complete") %>
+    </span>
+  <% else %>
+    <%= render partial: 'spree/shared/starts_in', locals: { auction: auction } %>
+  <% end %>
+</div>

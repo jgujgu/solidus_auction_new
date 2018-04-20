@@ -1,0 +1,83 @@
+<% min_bid = @auction.current_price + @auction.bid_increment %>
+
+<%= form_for :bid, url: bids_path do |f| %>
+  <div id="inside-product-cart-form" data-hook="inside_product_cart_form" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+    <div data-hook="product_price" class="columns five alpha">
+
+      <div id="product-price">
+        <% if @auction.complete %>
+          <h6 class="product-section-title"><%= t('spree.winning_bid') %></h6>
+        <% else %>
+          <h6 class="product-section-title"><%= t('spree.current_price') %></h6>
+        <% end %>
+        <div>
+          <span class="price selling" itemprop="price" content="<%= @auction.current_price.to_d %>">
+            <%= @auction.display_current_price %>
+          </span>
+        </div>
+        <% if @auction.reserve_price > 0 %>
+          <div>
+            <% if @auction.reserve_met? %>
+              <span class="green">
+                <i class="fa fa-check-circle" aria-hidden="true"></i>
+                <%= t("spree.reserve_met") %>
+              </span>
+            <% else %>
+              <span class="red">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                <%= t("spree.reserve_not_met") %>
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+        <div>
+          <span class="bold">
+            <%= bid_count = @auction.visible_bids.count %>
+            <% if bid_count == 1 %>
+              <%= Spree.t("spree.bid") %>
+            <% else %>
+              <%= Spree.t("spree.bids") %>
+            <% end %>
+          </span>
+        </div>
+        <%= render partial: 'spree/shared/votes', locals: { auction: @auction } %>
+        <% if !@auction.complete %>
+          <div>
+            <span>
+              <%= t("spree.min_bid") %>:
+            </span>
+            <span>
+              <%= number_to_currency(min_bid, :unit => "$") %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+      <% if spree_current_user %>
+        <% is_highest_bidder = @auction.highest_bidder_id == spree_current_user.id %>
+      <% else %>
+        <% is_highest_bidder = false %>
+      <% end %>
+      <% if @auction.complete %>
+        <% if is_highest_bidder  %>
+          <h6 class="product-section-title green">
+            <%= Spree.t("you_have_won_this_auction") %>
+          </h6>
+          <%= render partial: 'spree/shared/checkout_in', locals: { auction: @auction } %>
+          <h6 class="product-section-title">
+            <%= Spree.t("view_order_or_checkout") %>:
+          </h6>
+          <%= render partial: 'spree/shared/auction_order_link', locals: { auction: @auction } %>
+        <% end %>
+      <% else %>
+        <%= hidden_field_tag :auction_id, @auction.id %>
+        <div class="add-to-cart">
+          <%= number_field_tag :amount, min_bid, class: 'title', min: min_bid, step: 0.01, disabled: !@auction.in_progress? %>
+          <%= button_tag class: 'large primary', id: 'add-to-cart-button', disabled: !@auction.in_progress?, data: { confirm: Spree.t("bid_confirmation_message") },  type: :submit do %>
+            <%= t('spree.bid') %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <%= render partial: 'bids' %>
+  </div>
+<% end %>

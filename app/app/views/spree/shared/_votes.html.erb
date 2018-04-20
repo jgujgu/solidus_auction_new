@@ -1,0 +1,12 @@
+<% votes = auction.cached_votes_up %>
+<% if spree_current_user %>
+  <% voted_for = spree_current_user.voted_up_on? auction %>
+  <div class="votes <%= 'green' if voted_for %>" data-auction-id=<%= auction.id %> data-user-id=<%= spree_current_user.id %> data-voted-for="<%= voted_for ? 'true':'false' %>">
+  <% else %>
+    <div class="votes" data-auction-id=<%= auction.id %> data-user-id=null>
+    <% end %>
+    <span>
+      <%= votes %>
+    </span>
+    <i class="fa fa-eye" aria-hidden="true"></i>
+  </div>

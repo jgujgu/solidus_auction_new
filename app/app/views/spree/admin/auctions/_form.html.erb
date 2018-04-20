@@ -1,0 +1,224 @@
+<% auction_started = auction.started? %>
+<% auction_complete = auction.complete %>
+<div data-hook="admin_auction_form_fields">
+
+  <div class="row">
+
+    <div class="left col-9" data-hook="admin_auction_form_left">
+
+      <div data-hook="admin_auction_form_name">
+        <%= f.field_container :title do %>
+          <%= f.label :title, class: 'required' %>
+          <%= f.field_hint :title %>
+          <%= f.text_field :title, disable_on_complete(auction_complete, {class: 'fullwidth title', required: true}) %>
+          <%= f.error_message_on :title %>
+        <% end %>
+      </div>
+
+      <div data-hook="admin_auction_form_description">
+        <%= f.field_container :description do %>
+          <%= f.label :description, class: 'required' %>
+          <%= f.text_area :description, disable_on_complete(auction_complete, {class: 'fullwidth'}) %>
+          <%= f.error_message_on :description %>
+        <% end %>
+      </div>
+
+      <div class="row">
+        <div data-hook="admin_auction_form_price" class="left col-6">
+          <%= f.field_container :starting_price do %>
+            <%= f.label :starting_price, class: 'required' %>
+            <%= f.number_field :starting_price, disable_on_start(auction_started, { step: 0.01, min: 0 }) %>
+            <%= f.error_message_on :starting_price %>
+          <% end %>
+        </div>
+
+        <div data-hook="admin_auction_form_price" class="right col-6">
+          <%= f.field_container :reserve_price do %>
+            <%= f.label :reserve_price %>
+            <%= f.field_hint :reserve_price %>
+            <%= f.number_field :reserve_price, disable_on_start(auction_started, { step: 0.01, min: 0 }) %>
+            <%= f.error_message_on :reserve_price %>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div data-hook="admin_auction_form_option_types" class="left col-6">
+          <%= f.field_container :product_id do %>
+            <%= f.label :product_id, class: 'required' %>
+            <%= f.hidden_field :product_id, disable_on_complete(auction_complete, {})   %>
+          <% end %>
+        </div>
+
+        <div data-hook="admin_auction_form_price" class="left col-6">
+          <%= f.field_container :bid_increment do %>
+            <%= f.label :bid_increment %>
+            <%= f.field_hint :bid_increment %>
+            <%= f.number_field :bid_increment, disable_on_start(auction_started, { step: 0.01, min: 0 }) %>
+            <%= f.error_message_on :bid_increment %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div data-hook="admin_auction_form_available_on" class="left col-6">
+          <%= f.field_container :starting_datetime do %>
+            <%= f.label :starting_datetime, Spree.t("starting_datetime") %>
+            <%= f.field_hint :start %>
+            <div class="datetime-container">
+              <%= f.datetime_select :starting_datetime, { default: 1.days.from_now, ampm: true, minute_step: 5}, disable_on_complete(auction_complete, { class: "custom-select" }) %>
+              <%= f.error_message_on :starting_datetime %>
+            </div>
+          <% end %>
+        </div>
+
+        <div data-hook="admin_auction_form_available_on" class="right col-6">
+          <%= f.field_container :planned_end_datetime do %>
+            <%= f.label :planned_end_datetime, Spree.t("planned_end_datetime") %>
+            <div class="datetime-container">
+              <%= f.datetime_select :planned_end_datetime, disable_on_complete(auction_complete,{ default: 7.days.from_now, ampm: true, minute_step: 5}), { class: "custom-select"} %>
+              <%= f.error_message_on :planned_end_datetime %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row">
+        <% seconds_limit = 0..3600 %>
+        <div data-hook="admin_auction_form_price" class="right col-6">
+          <%= f.field_container :countdown do %>
+            <%= f.label :countdown, Spree.t("countdown_seconds")  %>
+            <%= f.field_hint :countdown %>
+            <%= f.number_field :countdown, disable_on_complete(auction_complete, {in: seconds_limit})  %>
+            <%= f.error_message_on :countdown %>
+          <% end %>
+        </div>
+
+        <div data-hook="admin_auction_form_price" class="left col-6">
+          <%= f.field_container :time_increment do %>
+            <%= f.label :time_increment %>
+            <%= f.field_hint :time_increment %>
+            <%= f.number_field :time_increment, disable_on_complete(auction_complete, {in: seconds_limit})  %>
+            <%= f.error_message_on :time_increment %>
+          <% end %>
+        </div>
+
+        <% minutes_limit = 1..10080 %>
+        <div data-hook="admin_auction_form_checkout_time_minutes" class="left col-6">
+          <%= f.field_container :checkout_time_minutes do %>
+
+            <%= f.label :checkout_time_minutes%>
+            <%= f.field_hint :checkout_time_minutes%>
+            <%= f.number_field :checkout_time_minutes, disable_on_complete(auction_complete, {in: minutes_limit})  %>
+            <%= f.error_message_on :checkout_time_minutes%>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="right col-3" data-hook="admin_auction_form_right">
+
+      <div data-hook="admin_auction_form_price">
+        <%= f.field_container :current_price do %>
+          <%= f.label :current_price %>
+          <%= f.text_field :current_price, { readonly: true, disabled: true } %>
+          <%= f.error_message_on :current_price %>
+        <% end %>
+      </div>
+
+      <div class="clear"></div>
+
+      <% if !@auction.complete && auction.started? %>
+        <div data-hook="admin_auction_form_time_remaining">
+          <%= f.field_container :current_end_datetime do %>
+            <p class="fullwidth title">
+              <%= render partial: 'spree/shared/ends_in', locals: { auction: @auction } %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+
+      <% if @auction.current_end_datetime %>
+        <div data-hook="admin_auction_form_available_on">
+          <%= f.field_container :current_end_datetime do %>
+            <label for="current_end_datetime"><%= Spree.t("current_end_datetime") %></label>
+            <%= f.field_hint :end %>
+            <p class="fullwidth title">
+              <%= local_time @auction.current_end_datetime %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="clear"></div>
+
+      <% if @auction.current_end_datetime %>
+        <div data-hook="admin_auction_form_available_on">
+          <%= f.field_container :current_end_datetime do %>
+            <div class="field" id="auction_checkout_deadline">
+              <label for="checkout_deadline_date"><%= Spree.t("checkout_deadline") %></label>
+              <p class="fullwidth title">
+                <%= local_time @auction.checkout_deadline %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if auction.won? && !auction.order_complete? %>
+        <div data-hook="admin_auction_form_checkout_deadline">
+          <%= f.field_container :current_end_datetime do %>
+            <p class="fullwidth title">
+              <%= render partial: 'spree/shared/checkout_in', locals: { auction: @auction } %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="clear"></div>
+      <div class="clear"></div>
+
+      <% if highest_bidder = auction.highest_bidder %>
+        <div data-hook="admin_auction_form_available_on">
+          <div class="field" id="auction_current_end_datetime_field">
+            <label for="highest_bidder"><%= Spree.t("highest_bidder") %></label>
+
+            <input value="<%=highest_bidder.email %>" readonly="readonly" disabled="disabled" id="highest_bidder" type="text">
+          </div>
+        </div>
+        <div class="clear"></div>
+      <% end %>
+
+      <% if @auction.title %>
+        <div data-hook="admin_auction_link">
+          <%= f.field_container :current_end_datetime do %>
+            <label for="auction_link"><%= Spree.t("auction_link") %></label>
+            <p class="fullwidth title">
+              <%= link_to polymorphic_url(@auction), @auction, target: "_blank" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="clear"></div>
+
+      <% if @auction.won?%>
+        <div data-hook="admin_auction_order">
+          <%= f.field_container :current_end_datetime do %>
+            <label for="auction_order_link"><%= Spree.t("associated_order") %></label>
+            <p class="fullwidth title">
+              <% order = auction.order %>
+              <%= link_to order.number, edit_admin_order_path(order) %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="clear"></div>
+
+
+    </div>
+
+  </div>
+</div>

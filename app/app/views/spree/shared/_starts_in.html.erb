@@ -1,0 +1,14 @@
+<% if auction.starting_datetime %>
+  <span>
+    <%= Spree.t("starts_in") %>
+  </span>
+  <span class="starts-in green" data-auction-end-datetime=<%= auction.current_end_datetime_as_float%> data-auction-starting-datetime=<%= auction.starting_datetime_as_float%>>
+    <% if auction.complete %>
+      <span class="green">
+        COMPLETE
+      </span>
+    <% else %>
+      <%= distance_of_time_in_words_to_now(auction.starting_datetime) %>
+    <% end %>
+  </span>
+<% end %>

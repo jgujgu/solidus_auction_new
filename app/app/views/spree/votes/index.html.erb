@@ -1,0 +1,13 @@
+<div data-hook="homepage_auctions">
+  <% if @auctions.any? %>
+    <%= render partial: 'spree/shared/auctions', locals: { auctions: @auctions } %>
+  <% else %>
+    <div class="alert alert-info">
+      <p>
+        <%= Spree.t(:you_have_not_watched_any_auctions_yet) %>
+        <%= Spree.t(:check_some_out_here) %>:
+        <%= link_to Spree.t(:auctions), auctions_path %>
+      </p>
+    </div>
+  <% end %>
+</div>

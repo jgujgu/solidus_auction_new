@@ -1,0 +1,9 @@
+<% if variant.option_values.any? || variant.is_master?%>
+  <td class="cart-item-quantity" data-hook="cart_item_quantity">
+    <%= item_form.number_field :quantity, min: 0, class: "line_item_quantity", size: 5 %>
+  </td>
+<% else %>
+  <td class="cart-item-quantity" data-hook="cart_item_quantity">
+    <%= item_form.number_field :quantity, min: 0, class: "line_item_quantity", size: 5, disabled: true %>
+  </td>
+<% end %>

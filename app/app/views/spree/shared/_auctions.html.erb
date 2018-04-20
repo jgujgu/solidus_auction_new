@@ -1,0 +1,39 @@
+<% if auctions.any? %>
+  <ul id="auctions" class="inline auction-listing" data-hook="auctions-index">
+    <% auctions.each do |auction| %>
+      <% product = auction.product %>
+      <% url = spree.auction_path(auction) %>
+      <li id="auction_<%= auction.id %>" class="columns three <%= cycle("alpha", "secondary", "", "omega secondary", name: "classes") %>" data-hook="auctions_list_item" itemscope>
+        <div class="auction-image">
+          <%= link_to(render('spree/shared/image', image: product.display_image, size: :small, itemprop: "image"), url, itemprop: 'url') %>
+        </div>
+        <%= link_to truncate(auction.title, length: 50), url, class: 'info', itemprop: "title", title: auction.title %>
+        <div>
+          <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+            <span class="price selling" itemprop="price" content="<%= auction.display_current_price %>">
+              <%= auction.display_current_price %>
+            </span>
+          </span>
+        </div>
+        <%= render partial: 'spree/shared/time_in_words_display', locals: { auction: auction } %>
+        <div>
+          <span class="bold">
+            <%= bid_count = auction.visible_bids.count %>
+            <% if bid_count == 1 %>
+              <%= Spree.t("spree.bid") %>
+            <% else %>
+              <%= Spree.t("spree.bids") %>
+            <% end %>
+          </span>
+        </div>
+        <%= render partial: 'spree/shared/votes', locals: { auction: auction } %>
+          <% if auction.in_progress? %>
+            <div>
+              <%= link_to Spree.t("bid"), url, class: "button button-primary" %>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+      <% reset_cycle("classes") %>
+    </ul>
+  <% end %>

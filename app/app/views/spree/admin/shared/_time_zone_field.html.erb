@@ -1,0 +1,5 @@
+<%= f.field_container :time_zone do %>
+  <%= f.label :time_zone %>
+  <%= f.time_zone_select :time_zone, nil, {}, { class: "custom-select", default: "Pacific Time (US & Canada)" } %>
+  <%= f.error_message_on :time_zone %>
+<% end %>

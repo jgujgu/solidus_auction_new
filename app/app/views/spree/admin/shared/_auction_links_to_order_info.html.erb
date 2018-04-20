@@ -1,0 +1,18 @@
+<%
+  auctions = []
+@order.variants.each do |variant|
+  if auction = variant.auction
+    auctions << auction
+  end
+end
+%>
+<% if !auctions.empty? %>
+  <dt data-hook='admin_order_tab_auctions_title'><%= Spree.t(:auctions) %>:</dt>
+  <dd id='auction_links'>
+    <% auctions.each do |auction| %>
+      <p>
+        <%= link_to auction.title, admin_auction_path(auction) %>
+      </p>
+    <% end %>
+  </dd>
+<% end %>

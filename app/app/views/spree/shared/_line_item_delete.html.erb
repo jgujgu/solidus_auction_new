@@ -1,0 +1,5 @@
+<% if variant.option_values.any? || variant.is_master?%>
+  <td class="cart-item-delete" data-hook="">
+    <%= link_to image_tag('icons/delete.png'), '#', class: 'delete', id: "delete_#{dom_id(line_item)}" %>
+  </td>
+<% end %>

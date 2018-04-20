@@ -1,0 +1,18 @@
+<% if auction.won? && !auction.order_complete? %>
+  <% if auction.current_end_datetime %>
+    <span>
+      <%= Spree.t("checkout_in") %>
+    </span>
+    <span class="checkout-in red" data-auction-checkout-deadline=<%= auction.checkout_deadline_as_float %> >
+      <% if auction.won? %>
+        <% if auction.order_complete? %>
+          <span class="green">
+            <%= Spree.t("payment_complete") %>
+          </span>
+        <% else %>
+          <%= distance_of_time_in_words_to_now(auction.checkout_deadline) %>
+        <% end %>
+      <% end %>
+    </span>
+  <% end %>
+<% end %>

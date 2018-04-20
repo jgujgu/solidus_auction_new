@@ -1,0 +1,26 @@
+<% if variant.option_values.any? || variant.is_master?%>
+  <td class="cart-item-description" data-hook="cart_item_description">
+    <h4><%= link_to line_item.name, product_path(variant.product) %></h4>
+    <%= variant.options_text %>
+    <% if line_item.insufficient_stock? %>
+      <span class="out-of-stock">
+        <%= t('spree.out_of_stock') %>&nbsp;&nbsp;<br />
+      </span>
+    <% end %>
+    <span class="line-item-description" data-hook="line_item_description">
+      <%= line_item_description_text(line_item.description) %>
+    </span>
+  </td>
+<% else %>
+  <% auction = variant.auction %>
+  <td class="cart-item-description" data-hook="cart_item_description">
+    <h4><%= link_to auction.title, auction %></h4>
+    <span class="line-item-description" data-hook="line_item_description">
+      <%= line_item_description_text(auction.description) %>
+    </span>
+    &nbsp;<br />
+    <span class="line-item-description" data-hook="line_item_checkout_deadline">
+      <%= render partial: 'spree/shared/checkout_in', locals: { auction: auction } %>
+    </span>
+  </td>
+<% end %>

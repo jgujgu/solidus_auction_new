@@ -1,0 +1,45 @@
+<%= render partial: 'spree/admin/shared/configuration_menu' %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:auction_settings) %>
+<% end %>
+
+<%= form_tag admin_auction_settings_path, method: :put  do |form| %>
+  <div id="preferences" data-hook>
+    <fieldset class="general no-border-top">
+      <div class="row">
+        <div class="col-5">
+          <%= label_tag Spree.t('starting_soon_hours') %>
+          <%= number_field_tag 'starting_soon_hours', @config[:starting_soon_hours], min: 1, step: 1 %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <%= label_tag Spree.t('ending_soon_hours') %>
+          <%= number_field_tag 'ending_soon_hours', @config[:ending_soon_hours], min: 1, step: 1 %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <%= label_tag Spree.t('recently_completed_hours') %>
+          <%= number_field_tag 'recently_completed_hours', @config[:recently_completed_hours], min: 1, step: 1 %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-5">
+          <%= label_tag Spree.t('number_of_bids_to_show') %>
+          <%= number_field_tag 'number_of_bids_to_show', @config[:number_of_bids_to_show], min: 1, step: 1 %>
+        </div>
+      </div>
+
+
+      <div class="form-buttons filter-actions actions" data-hook="buttons">
+        <%= button Spree.t(:update) %>
+        <%= button_link_to Spree.t(:cancel), edit_admin_auction_settings_url %>
+      </div>
+    </fieldset>
+  </div>
+<% end %>

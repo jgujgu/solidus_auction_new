@@ -1,0 +1,52 @@
+<% @bids = @auction.visible_bids_in_chron_order.limit(Spree::AuctionSettings::Config.number_of_bids_to_show) %>
+<% if @bids.any? %>
+  <div id="bids" class="columns five alpha" data-hook="bids">
+    <table data-hook="visible-bids-table">
+      <thead>
+        <tr>
+          <th>
+            <%= Spree.t("bidder") %>
+          </th>
+          <th>
+            <%= Spree.t("amount") %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bids.each_with_index do |bid, i| %>
+          <% if i == 0 %>
+            <tr class="odd">
+              <td>
+                <%= bid.bidder_display_name %>
+              </td>
+              <% if spree_current_user && @auction.highest_bidder_id == spree_current_user.id %>
+                <td>
+                  <%= bid.display_amount %>
+                  <span class="green">
+                    <% highest_bid = @auction.highest_bid %>
+                    <% if highest_bid.is_autobid? %>
+                      (<%= highest_bid.display_amount %>)
+                    <% end %>
+                  </span>
+                </td>
+              <% else %>
+                <td>
+                  <%= bid.display_amount %>
+                </td>
+              <% end %>
+            </tr>
+          <% else %>
+            <tr>
+              <td>
+                <%= bid.bidder_display_name %>
+              </td>
+              <td>
+                <%= bid.display_amount %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

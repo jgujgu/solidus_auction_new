@@ -1,0 +1,24 @@
+/*
+Placeholder manifest file.
+the installer will append this file to the app vendored assets here: 'vendor/assets/stylesheets/spree/frontend/all.css'
+*/
+
+.add-to-cart input[type="number"] {
+  width: 80px !important;
+}
+
+.red {
+  color: #e45353;
+}
+
+.green {
+  color: #8dba53;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.votes {
+  cursor: pointer;
+}

@@ -1,0 +1,15 @@
+<% if params[:keywords] %>
+  <div data-hook="search_results">
+    <% if @auctions.empty? %>
+      <h6 class="search-results-title"><%= t('spree.no_auctions_found') %></h6>
+    <% else %>
+      <%= render partial: 'spree/shared/auctions', locals: { auctions: @auctions, taxon: @taxon } %>
+    <% end %>
+  </div>
+
+<% else %>
+
+  <div data-hook="homepage_auctions">
+    <%= render partial: 'spree/shared/auctions', locals: { auctions: @auctions, taxon: @taxon } %>
+  </div>
+<% end %>

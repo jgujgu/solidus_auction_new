@@ -1,0 +1,9 @@
+<% highest_bidder = auction.highest_bidder_id == spree_current_user.id %>
+<% if auction.complete && highest_bidder %>
+  <% order = auction.order %>
+  <% if order.complete? %>
+    <%= link_to order.number, order %>
+  <% else %>
+    <%= link_to order.number, cart_path %>
+  <% end %>
+<% end %>

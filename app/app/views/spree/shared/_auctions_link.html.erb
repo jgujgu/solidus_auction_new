@@ -1,0 +1,7 @@
+<%= link_to Spree.t("current_auctions"), auctions_path %>
+<%= link_to Spree.t("starting_soon"), starting_soon_path %>
+<%= link_to Spree.t("ending_soon"), ending_soon_path %>
+<%= link_to Spree.t("recently_completed"), recently_completed_path %>
+<% if spree_current_user %>
+  <%= link_to "#{Spree.t('watching')} (#{spree_current_user.find_up_voted_items.count})", votes_path %>
+<% end %>
